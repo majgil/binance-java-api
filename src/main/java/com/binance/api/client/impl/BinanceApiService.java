@@ -33,6 +33,9 @@ public interface BinanceApiService {
 
     @GET("/api/v3/exchangeInfo")
     Call<ExchangeInfo> getExchangeInfo();
+    
+    @GET("/api/v3/exchangeInfo")
+    Call<ExchangeInfo> getExchangeInfo(@Query("symbol") String symbol);    
 
     @GET
     Call<List<Asset>> getAllAssets(@Url String url);

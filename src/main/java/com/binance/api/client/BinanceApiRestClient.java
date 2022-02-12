@@ -37,6 +37,13 @@ public interface BinanceApiRestClient {
    * @return Current exchange trading rules and symbol information
    */
   ExchangeInfo getExchangeInfo();
+  
+  /**
+   * @return Current exchange trading rules and symbol information
+   * 
+   *  @param symbol ticker symbol (e.g. ETHBTC)
+   */
+  ExchangeInfo getExchangeInfo(String symbol);  
 
   /**
    * @return All the supported assets and whether or not they can be withdrawn.
