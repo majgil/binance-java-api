@@ -92,11 +92,11 @@ public class BinanceApiServiceGenerator {
      */
     public static <T> T executeSync(Call<T> call) {
         try {
-        	COUNT_REQUEST++;
-            System.out.println("API BINANCE. Time ini: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO) + ". Nº REQUEST : " + COUNT_REQUEST + ". Data: " + call.request());
+        	//COUNT_REQUEST++;
+            //System.out.println("API BINANCE. Time ini: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO) + ". Nº REQUEST : " + COUNT_REQUEST + ". Data: " + call.request());
             Response<T> response = call.execute();            
             if (response.isSuccessful()) {
-            	System.out.println("API BINANCE. Time fin: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO)  + ". Nº REQUEST : " + COUNT_REQUEST + ". Resultado OK. Data: "   + response.raw());
+            	//System.out.println("API BINANCE. Time fin: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO)  + ". Nº REQUEST : " + COUNT_REQUEST + ". Resultado OK. Data: "   + response.raw());
                 return response.body();
             } else {
                 BinanceApiError apiError = getBinanceApiError(response);
