@@ -20,6 +20,10 @@ public class SymbolInfo {
   private String baseAsset;
 
   private Integer baseAssetPrecision;
+  
+  private Integer baseCommissionPrecision;
+  
+  private Integer quoteCommissionPrecision;  
 
   private String quoteAsset;
 
@@ -142,8 +146,34 @@ public class SymbolInfo {
   public void setFilters(List<SymbolFilter> filters) {
     this.filters = filters;
   }
+  
+  
 
-  /**
+  public Integer getBaseCommissionPrecision() {
+	return baseCommissionPrecision;
+}
+
+public void setBaseCommissionPrecision(Integer baseCommissionPrecision) {
+	this.baseCommissionPrecision = baseCommissionPrecision;
+}
+
+public Integer getQuoteCommissionPrecision() {
+	return quoteCommissionPrecision;
+}
+
+public void setQuoteCommissionPrecision(Integer quoteCommissionPrecision) {
+	this.quoteCommissionPrecision = quoteCommissionPrecision;
+}
+
+public void setSpotTradingAllowed(boolean isSpotTradingAllowed) {
+	this.isSpotTradingAllowed = isSpotTradingAllowed;
+}
+
+public void setMarginTradingAllowed(boolean isMarginTradingAllowed) {
+	this.isMarginTradingAllowed = isMarginTradingAllowed;
+}
+
+/**
    * @param filterType filter type to filter for.
    * @return symbol filter information for the provided filter type.
    */
@@ -161,6 +191,8 @@ public class SymbolInfo {
         .append("status", status)
         .append("baseAsset", baseAsset)
         .append("baseAssetPrecision", baseAssetPrecision)
+        .append("baseCommissionPrecision", baseCommissionPrecision)
+        .append("quoteCommissionPrecision", quoteCommissionPrecision)        
         .append("quoteAsset", quoteAsset)
         .append("quotePrecision", quotePrecision)
         .append("orderTypes", orderTypes)
