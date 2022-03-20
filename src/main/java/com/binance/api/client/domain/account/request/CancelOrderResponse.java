@@ -1,9 +1,12 @@
 package com.binance.api.client.domain.account.request;
 
-import com.binance.api.client.constant.BinanceApiConstants;
-import com.binance.api.client.domain.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.binance.api.client.constant.BinanceApiConstants;
+import com.binance.api.client.domain.OrderSide;
+import com.binance.api.client.domain.OrderStatus;
+import com.binance.api.client.domain.OrderType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Response object returned when an order is canceled.
@@ -24,6 +27,18 @@ public class CancelOrderResponse {
   private OrderStatus status;
 
   private String executedQty;
+  
+  private String price;
+  
+  private String stopPrice;  
+  
+  private String origQty;
+  
+  private String cummulativeQuoteQty;
+  
+  private OrderType type;
+  
+  private OrderSide side;      
 
   public String getSymbol() {
     return symbol;
@@ -76,14 +91,67 @@ public class CancelOrderResponse {
     this.clientOrderId = clientOrderId;
     return this;
   }
+  
+  
 
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
-            .append("symbol", symbol)
-            .append("origClientOrderId", origClientOrderId)
-            .append("orderId", orderId)
-            .append("clientOrderId", clientOrderId)
-            .toString();
-  }
+    public String getPrice() {
+	   return price;
+    }
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
+	public String getStopPrice() {
+		return stopPrice;
+	}
+	
+	public void setStopPrice(String stopPrice) {
+		this.stopPrice = stopPrice;
+	}
+	
+	public String getOrigQty() {
+		return origQty;
+	}
+	
+	public void setOrigQty(String origQty) {
+		this.origQty = origQty;
+	}
+	
+	public String getCummulativeQuoteQty() {
+		return cummulativeQuoteQty;
+	}
+	
+	public void setCummulativeQuoteQty(String cummulativeQuoteQty) {
+		this.cummulativeQuoteQty = cummulativeQuoteQty;
+	}
+	
+	public OrderType getType() {
+		return type;
+	}
+	
+	public void setType(OrderType type) {
+		this.type = type;
+	}
+	
+	public OrderSide getSide() {
+		return side;
+	}
+	
+	public void setSide(OrderSide side) {
+		this.side = side;
+	}
+
+	@Override
+	public String toString() {
+		return "CancelOrderResponse [symbol=" + symbol + ", origClientOrderId=" + origClientOrderId + ", orderId="
+				+ orderId + ", clientOrderId=" + clientOrderId + ", status=" + status + ", executedQty=" + executedQty
+				+ ", price=" + price + ", stopPrice=" + stopPrice + ", origQty=" + origQty + ", cummulativeQuoteQty="
+				+ cummulativeQuoteQty + ", type=" + type + ", side=" + side + "]";
+	}
+
+
+	
+	
+	
 }
