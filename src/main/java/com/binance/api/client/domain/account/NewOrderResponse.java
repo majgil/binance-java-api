@@ -38,6 +38,8 @@ public class NewOrderResponse {
   private String clientOrderId;
 
   private String price;
+  
+  private String stopPrice;
 
   private String origQty;
 
@@ -51,7 +53,7 @@ public class NewOrderResponse {
 
   private OrderType type;
 
-  private OrderSide side;
+  private OrderSide side;  
 
   // @JsonSetter(nulls = Nulls.AS_EMPTY)
   private List<Trade> fills;
@@ -164,8 +166,18 @@ public class NewOrderResponse {
   public void setFills(List<Trade> fills) {
     this.fills = fills;
   }
+  
+  
 
-  @Override
+  public String getStopPrice() {
+	return stopPrice;
+}
+
+public void setStopPrice(String stopPrice) {
+	this.stopPrice = stopPrice;
+}
+
+@Override
   public String toString() {
     return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
         .append("symbol", symbol)
