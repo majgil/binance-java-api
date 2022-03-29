@@ -1,11 +1,13 @@
 package com.binance.api.client.domain.account;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.OrderSide;
 import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.TimeInForce;
+import com.binance.api.client.domain.market.Candlestick;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * A trade order to enter or exit a position.
@@ -83,6 +85,12 @@ public class NewOrder {
    */
   private long timestamp;
 
+  
+  /**
+   * Debug. Creation order timestamp
+   */
+  private Candlestick debugCandleCreationOrder;
+  
   /**
    * Creates a new order with all required parameters.
    */
@@ -230,8 +238,21 @@ public class NewOrder {
     this.timestamp = timestamp;
     return this;
   }
+  
+  
+  
+  
 
-  /**
+
+	public Candlestick getDebugCandleCreationOrder() {
+		return debugCandleCreationOrder;
+	}
+	
+	public void setDebugCandleCreationOrder(Candlestick debugCandleCreationOrder) {
+		this.debugCandleCreationOrder = debugCandleCreationOrder;
+	}
+
+/**
    * Places a MARKET buy order for the given <code>quantity</code>.
    *
    * @return a new order which is pre-configured with MARKET as the order type and BUY as the order side.
@@ -257,6 +278,8 @@ public class NewOrder {
   public static NewOrder limitBuy(String symbol, TimeInForce timeInForce, String quantity, String price) {
     return new NewOrder(symbol, OrderSide.BUY, OrderType.LIMIT, timeInForce, quantity, price);
   }
+  
+  
 
   /**
    * Places a LIMIT sell order for the given <code>quantity</code> and <code>price</code>.

@@ -123,7 +123,7 @@ public class Candlestick {
   public void setTakerBuyQuoteAssetVolume(String takerBuyQuoteAssetVolume) {
     this.takerBuyQuoteAssetVolume = takerBuyQuoteAssetVolume;
   }
-
+  
   @Override
   public String toString() {
     return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
