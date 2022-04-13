@@ -79,6 +79,15 @@ public class SymbolFilter {
    * ICEBERG_PARTS filter defines the maximum parts an iceberg order can have. The number of ICEBERG_PARTS is defined as CEIL(qty / icebergQty).
    */
   private String limit;
+  
+  /**
+   * TRAILING_DELTA filter is defined by the minimum and maximum values for the trailingDelta value
+   */
+  private Integer minTrailingAboveDelta;
+  private Integer maxTrailingAboveDelta;
+  private Integer minTrailingBelowDelta;
+  private Integer maxTrailingBelowDelta;
+  
 
   public FilterType getFilterType() {
     return filterType;
@@ -162,7 +171,40 @@ public class SymbolFilter {
   }
 
   
-  @Override
+  
+  public Integer getMinTrailingAboveDelta() {
+	return minTrailingAboveDelta;
+}
+
+public void setMinTrailingAboveDelta(Integer minTrailingAboveDelta) {
+	this.minTrailingAboveDelta = minTrailingAboveDelta;
+}
+
+public Integer getMaxTrailingAboveDelta() {
+	return maxTrailingAboveDelta;
+}
+
+public void setMaxTrailingAboveDelta(Integer maxTrailingAboveDelta) {
+	this.maxTrailingAboveDelta = maxTrailingAboveDelta;
+}
+
+public Integer getMinTrailingBelowDelta() {
+	return minTrailingBelowDelta;
+}
+
+public void setMinTrailingBelowDelta(Integer minTrailingBelowDelta) {
+	this.minTrailingBelowDelta = minTrailingBelowDelta;
+}
+
+public Integer getMaxTrailingBelowDelta() {
+	return maxTrailingBelowDelta;
+}
+
+public void setMaxTrailingBelowDelta(Integer maxTrailingBelowDelta) {
+	this.maxTrailingBelowDelta = maxTrailingBelowDelta;
+}
+
+@Override
   public String toString() {
     return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
         .append("filterType", filterType)

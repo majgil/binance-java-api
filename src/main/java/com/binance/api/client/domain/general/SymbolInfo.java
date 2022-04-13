@@ -40,6 +40,8 @@ public class SymbolInfo {
   private boolean isSpotTradingAllowed;
 
   private boolean isMarginTradingAllowed;
+  
+  private boolean allowTrailingStop;
 
   private List<SymbolFilter> filters;
 
@@ -171,6 +173,16 @@ public void setSpotTradingAllowed(boolean isSpotTradingAllowed) {
 
 public void setMarginTradingAllowed(boolean isMarginTradingAllowed) {
 	this.isMarginTradingAllowed = isMarginTradingAllowed;
+}
+
+
+
+public boolean isAllowTrailingStop() {
+	return allowTrailingStop;
+}
+
+public void setAllowTrailingStop(boolean allowTrailingStop) {
+	this.allowTrailingStop = allowTrailingStop;
 }
 
 /**
