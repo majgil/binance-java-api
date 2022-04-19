@@ -124,6 +124,27 @@ public class Candlestick {
     this.takerBuyQuoteAssetVolume = takerBuyQuoteAssetVolume;
   }
   
+  public Candlestick convertFormatSpanish() {
+	  
+	  Candlestick result = new Candlestick();
+	  
+	  result.setOpen(this.getOpen().replace('.', ','));
+	  result.setHigh(this.getHigh().replace('.', ','));
+	  result.setLow(this.getLow().replace('.', ','));
+	  result.setClose(this.getClose().replace('.', ','));
+	  result.setCloseTime(this.getCloseTime());
+	  result.setOpenTime(this.getOpenTime());
+	  result.setVolume(this.getVolume());
+	  result.setNumberOfTrades(this.getNumberOfTrades());
+	  result.setQuoteAssetVolume(this.getTakerBuyQuoteAssetVolume());
+	  result.setTakerBuyBaseAssetVolume(this.getTakerBuyBaseAssetVolume());
+	  result.setTakerBuyQuoteAssetVolume(this.getTakerBuyQuoteAssetVolume());
+	  
+	  
+	  return result;
+  }
+  
+  
   @Override
   public String toString() {
     return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
