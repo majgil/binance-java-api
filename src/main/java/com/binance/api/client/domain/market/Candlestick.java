@@ -139,8 +139,7 @@ public class Candlestick {
 	  result.setQuoteAssetVolume(this.getTakerBuyQuoteAssetVolume());
 	  result.setTakerBuyBaseAssetVolume(this.getTakerBuyBaseAssetVolume());
 	  result.setTakerBuyQuoteAssetVolume(this.getTakerBuyQuoteAssetVolume());
-	  
-	  
+	  	  
 	  return result;
   }
   
