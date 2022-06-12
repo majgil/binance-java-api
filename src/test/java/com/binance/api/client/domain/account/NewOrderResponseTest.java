@@ -1,15 +1,14 @@
 package com.binance.api.client.domain.account;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @see NewOrderResponse
@@ -27,16 +26,19 @@ public class NewOrderResponseTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation")  
   public void shouldHandleToStringWithNullFills() {
     assertThat(newOrderResponse.toString(), containsString(",fills="));
   }
 
   @Test
+  @SuppressWarnings("deprecation")  
   public void shouldHandleToStringWithNoFills() {
     newOrderResponse.setFills(Collections.emptyList());
     assertThat(newOrderResponse.toString(), containsString(",fills="));
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void shouldHandleToStringWithFills() {
     newOrderResponse.setFills(trades(trade));
