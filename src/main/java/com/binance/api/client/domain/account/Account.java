@@ -136,11 +136,15 @@ public class Account {
    * @return an asset balance for the given symbol which can be 0 in case the symbol has no balance in the account
    */
   public AssetBalance getAssetBalance(String symbol) {
-    for (AssetBalance assetBalance : balances) {
-      if (symbol.equals(assetBalance.getAsset())) {
-        return assetBalance;
-      }
-    }
+	  
+	if (balances != null && !balances.isEmpty()) {  
+	    for (AssetBalance assetBalance : balances) {
+	      if (symbol.equals(assetBalance.getAsset())) {
+	        return assetBalance;
+	      }
+	    }
+	}
+	
     AssetBalance emptyBalance = new AssetBalance();
     emptyBalance.setAsset(symbol);
     emptyBalance.setFree("0");
