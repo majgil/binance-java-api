@@ -136,7 +136,7 @@ public class BinanceApiServiceGenerator {
      * Execute a REST call and block until the response is received.
      */
     public static <T> T executeSync(Call<T> call) {
-    	return BinanceApiServiceGenerator.executeSync(call, true, true);
+    	return BinanceApiServiceGenerator.executeSync(call, false, false);
     }
     
     private static <T> void  executeInterceptorBeforeRequest(Call<T> call, boolean flagTraceLogRequest) {

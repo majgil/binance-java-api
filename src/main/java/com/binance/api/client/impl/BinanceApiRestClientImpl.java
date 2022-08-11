@@ -91,7 +91,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 
 	@Override
 	public List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit,	Long startTime, Long endTime) {
-		return executeSync(binanceApiService.getCandlestickBars(symbol, interval.getIntervalId(), limit, startTime, endTime), false, false);
+		return executeSync(binanceApiService.getCandlestickBars(symbol, interval.getIntervalId(), limit, startTime, endTime));
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 					order.getStopPrice(), order.getIcebergQty(), order.getNewOrderRespType(), order.getRecvWindow(),
 					order.getTimestamp());
 		}
-		return executeSync(call);
+		return executeSync(call, true, true);
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 		executeSync(binanceApiService.newOrderTest(order.getSymbol(), order.getSide(), order.getType(),
 				order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getNewClientOrderId(),
 				order.getStopPrice(), order.getIcebergQty(), order.getNewOrderRespType(), order.getRecvWindow(),
-				order.getTimestamp()));
+				order.getTimestamp()), true, true);
 	}
 
 	// Account endpoints
@@ -183,7 +183,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 		return executeSync(binanceApiService.newOCO(oco.getSymbol(), oco.getListClientOrderId(), oco.getSide(),
 				oco.getQuantity(), oco.getLimitClientOrderId(), oco.getPrice(), oco.getLimitIcebergQty(),
 				oco.getStopClientOrderId(), oco.getStopPrice(), oco.getStopLimitPrice(), oco.getStopIcebergQty(),
-				oco.getStopLimitTimeInForce(), oco.getNewOrderRespType(), oco.getRecvWindow(), oco.getTimestamp()));
+				oco.getStopLimitTimeInForce(), oco.getNewOrderRespType(), oco.getRecvWindow(), oco.getTimestamp()), true, true);
 	}
 
 	@Override
