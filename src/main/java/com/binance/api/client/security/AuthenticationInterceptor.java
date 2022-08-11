@@ -34,7 +34,7 @@ public class AuthenticationInterceptor implements Interceptor {
         boolean isApiKeyRequired = original.header(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_APIKEY) != null;
         boolean isSignatureRequired = original.header(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED) != null;
         newRequestBuilder.removeHeader(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_APIKEY)
-            .removeHeader(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED);
+                         .removeHeader(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED);
 
         // Endpoint requires sending a valid API-KEY
         if (isApiKeyRequired || isSignatureRequired) {
