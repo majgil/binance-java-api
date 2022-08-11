@@ -20,8 +20,6 @@ public class ExchangeInfo {
 
   private List<RateLimit> rateLimits;
 
-  // private List<String> exchangeFilters;
-
   private List<SymbolInfo> symbols;
 
   public String getTimezone() {
