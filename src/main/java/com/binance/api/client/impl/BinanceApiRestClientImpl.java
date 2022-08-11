@@ -1,5 +1,6 @@
 package com.binance.api.client.impl;
 
+import com.binance.api.client.BinanceApiHttpInterceptor;
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.config.BinanceApiConfig;
 import com.binance.api.client.constant.BinanceApiConstants;
@@ -16,8 +17,7 @@ import static com.binance.api.client.impl.BinanceApiServiceGenerator.createServi
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSync;
 
 /**
- * Implementation of Binance's REST API using Retrofit with synchronous/blocking
- * method calls.
+ * Implementation of Binance's REST API using Retrofit with synchronous/blocking method calls.
  */
 public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 
@@ -27,7 +27,14 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 		binanceApiService = createService(BinanceApiService.class, apiKey, secret);
 	}
 
+	public BinanceApiRestClientImpl(String apiKey, String secret, List<BinanceApiHttpInterceptor> interceptorsHttp) {
+		binanceApiService = createService(BinanceApiService.class, apiKey, secret, interceptorsHttp);
+	}	
+	
+	
+	//*******************************************/
 	// General endpoints
+	//*******************************************/
 
 	@Override
 	public void ping() {
@@ -83,10 +90,8 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 	}
 
 	@Override
-	public List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit,
-			Long startTime, Long endTime) {
-		return executeSync(
-				binanceApiService.getCandlestickBars(symbol, interval.getIntervalId(), limit, startTime, endTime));
+	public List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit,	Long startTime, Long endTime) {
+		return executeSync(binanceApiService.getCandlestickBars(symbol, interval.getIntervalId(), limit, startTime, endTime), false, false);
 	}
 
 	@Override

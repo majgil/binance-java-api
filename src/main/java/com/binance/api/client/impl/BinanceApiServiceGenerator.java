@@ -2,13 +2,13 @@ package com.binance.api.client.impl;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.binance.api.client.BinanceApiError;
+import com.binance.api.client.BinanceApiHttpInterceptor;
 import com.binance.api.client.config.BinanceApiConfig;
 import com.binance.api.client.exception.BinanceApiException;
 import com.binance.api.client.security.AuthenticationInterceptor;
@@ -30,8 +30,8 @@ public class BinanceApiServiceGenerator {
     private static final OkHttpClient sharedClient;
     private static final Converter.Factory converterFactory = JacksonConverterFactory.create();
 
-	public static final String FORMAT_DATE_HOUR_MIN_SEC_ISO = "yyyy-MM-dd'T'HH:mm:ss.S";
-	public static long COUNT_REQUEST = 0;	
+    private static List<BinanceApiHttpInterceptor> interceptorsHttp = null;
+    
 	
     static {
         Dispatcher dispatcher = new Dispatcher();
@@ -41,6 +41,10 @@ public class BinanceApiServiceGenerator {
                 .dispatcher(dispatcher)
                 .pingInterval(20, TimeUnit.SECONDS)
                 .build();
+    }
+    
+    private BinanceApiServiceGenerator() {
+    	
     }
 
     @SuppressWarnings("unchecked")
@@ -61,13 +65,13 @@ public class BinanceApiServiceGenerator {
      *
      * @return a new implementation of the API endpoints for the Binance API service.
      */
-    public static <S> S createService(Class<S> serviceClass, String apiKey, String secret) {
+    public static <S> S createService(Class<S> serviceClass, String apiKey, String secret, List<BinanceApiHttpInterceptor> interceptorsHttp) {
         String baseUrl = null;
-        if (!BinanceApiConfig.useTestnet) { baseUrl = BinanceApiConfig.getApiBaseUrl(); }
+        if (!BinanceApiConfig.useTestnet) { 
+        	baseUrl = BinanceApiConfig.getApiBaseUrl(); 
+        }
         else {
-            baseUrl = /*BinanceApiConfig.useTestnetStreaming ?
-                BinanceApiConfig.getStreamTestNetBaseUrl() :*/
-                BinanceApiConfig.getTestNetBaseUrl();
+            baseUrl = BinanceApiConfig.getTestNetBaseUrl();
         }
 
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
@@ -82,26 +86,42 @@ public class BinanceApiServiceGenerator {
             OkHttpClient adaptedClient = sharedClient.newBuilder().addInterceptor(interceptor).build();
             retrofitBuilder.client(adaptedClient);
         }
+        
+        if (interceptorsHttp != null) {
+        	BinanceApiServiceGenerator.interceptorsHttp = interceptorsHttp;
+        }
 
         Retrofit retrofit = retrofitBuilder.build();
         return retrofit.create(serviceClass);
     }
+    
 
+    /**
+     * Create a Binance API service.
+     *
+     * @param serviceClass the type of service.
+     * @param apiKey Binance API key.
+     * @param secret Binance secret.
+     *
+     * @return a new implementation of the API endpoints for the Binance API service.
+     */
+    public static <S> S createService(Class<S> serviceClass, String apiKey, String secret) {
+        return BinanceApiServiceGenerator.createService(serviceClass, apiKey, secret, null);
+    }    
+    
     /**
      * Execute a REST call and block until the response is received.
      */
-    public static <T> T executeSync(Call<T> call) {
+    public static <T> T executeSync(Call<T> call, boolean flagTraceLogRequest, boolean flagTraceLogResponse) {
         try {
-        	//COUNT_REQUEST++;
-            //System.out.println("API BINANCE. Time ini: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO) + ". Nº REQUEST : " + COUNT_REQUEST + ". Data: " + call.request());
-            Response<T> response = call.execute();            
-            if (response.isSuccessful()) {
-            	//System.out.println("API BINANCE. Time fin: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO)  + ". Nº REQUEST : " + COUNT_REQUEST + ". Resultado OK. Data: "   + response.raw());
+        	BinanceApiServiceGenerator.executeInterceptorBeforeRequest(call, flagTraceLogRequest);
+            Response<T> response = call.execute();
+        	BinanceApiServiceGenerator.executeInterceptorAfterResponse(response, flagTraceLogResponse);
+        	
+            if (response.isSuccessful()) {           	
                 return response.body();
             } else {
                 BinanceApiError apiError = getBinanceApiError(response);
-            	System.out.println("API BINANCE. Time fin: " + BinanceApiServiceGenerator.formatToString(new Date(), FORMAT_DATE_HOUR_MIN_SEC_ISO)  + ". Nº REQUEST : " + COUNT_REQUEST + ". Resultado KO. Data: "   + response.raw());
-                
                 throw new BinanceApiException(apiError);
             }
         } catch (IOException e) {
@@ -110,27 +130,44 @@ public class BinanceApiServiceGenerator {
             throw new BinanceApiException(e);
         }
     }
+        
+
+    /**
+     * Execute a REST call and block until the response is received.
+     */
+    public static <T> T executeSync(Call<T> call) {
+    	return BinanceApiServiceGenerator.executeSync(call, true, true);
+    }
+    
+    private static <T> void  executeInterceptorBeforeRequest(Call<T> call, boolean flagTraceLogRequest) {
+    	if (BinanceApiServiceGenerator.interceptorsHttp != null && !BinanceApiServiceGenerator.interceptorsHttp.isEmpty()) {
+    		for (BinanceApiHttpInterceptor interceptorHttp : BinanceApiServiceGenerator.interceptorsHttp) {
+    			try {
+    			    interceptorHttp.interceptBeforeRequest(call, flagTraceLogRequest);
+    			} catch (Exception ex) {
+    				ex.printStackTrace();
+    			}
+    		}
+    	}
+    }
+    
+    private static <T> void  executeInterceptorAfterResponse(Response<T> response, boolean flagTraceLogResponse) {
+    	if (BinanceApiServiceGenerator.interceptorsHttp != null && !BinanceApiServiceGenerator.interceptorsHttp.isEmpty()) {
+    		for (BinanceApiHttpInterceptor interceptorHttp : BinanceApiServiceGenerator.interceptorsHttp) {
+    			try {
+        			interceptorHttp.interceptAfterResponse(response, flagTraceLogResponse);
+    			} catch (Exception ex) {
+    				ex.printStackTrace();
+    			}    			
+    		}
+    	}
+    }    
     
 	
-	/**
-	 * Transforma una fecha de tipo LocalDate a una String con el formato indicado
-	 * 
-	 * @param fecha Fecha a transformar
-	 * 
-	 * @return Representación en String con el formato indicado de la fecha de tipo LocalDate
-	 */
-	public static String formatToString(Date fecha, String formato) {
-		if (fecha == null) {
-			return null;
-		}
-		final SimpleDateFormat dsf = new SimpleDateFormat(formato);
-		return dsf.format(fecha);
-	}	    
-
     /**
      * Extracts and converts the response error body into an object.
      */
-    public static BinanceApiError getBinanceApiError(Response<?> response) throws IOException, BinanceApiException {
+    public static BinanceApiError getBinanceApiError(Response<?> response) throws IOException {    	
         return errorBodyConverter.convert(response.errorBody());
     }
 

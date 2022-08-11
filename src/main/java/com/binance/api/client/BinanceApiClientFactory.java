@@ -1,8 +1,16 @@
 package com.binance.api.client;
 
-import com.binance.api.client.impl.*;
-import com.binance.api.client.config.BinanceApiConfig;
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.getSharedClient;
+
+import java.util.List;
+
+import com.binance.api.client.config.BinanceApiConfig;
+import com.binance.api.client.impl.BinanceApiAsyncMarginRestClientImpl;
+import com.binance.api.client.impl.BinanceApiAsyncRestClientImpl;
+import com.binance.api.client.impl.BinanceApiMarginRestClientImpl;
+import com.binance.api.client.impl.BinanceApiRestClientImpl;
+import com.binance.api.client.impl.BinanceApiSwapRestClientImpl;
+import com.binance.api.client.impl.BinanceApiWebSocketClientImpl;
 
 /**
  * A factory for creating BinanceApi client objects.
@@ -44,7 +52,8 @@ public class BinanceApiClientFactory {
       this(apiKey, secret);
       if (useTestnet) {
         BinanceApiConfig.useTestnet = true;
-        BinanceApiConfig.useTestnetStreaming = useTestnetStreaming; }
+        BinanceApiConfig.useTestnetStreaming = useTestnetStreaming; 
+      }
   }
 
   /**
@@ -100,6 +109,13 @@ public class BinanceApiClientFactory {
   public BinanceApiRestClient newRestClient() {
     return new BinanceApiRestClientImpl(apiKey, secret);
   }
+  
+  /**
+   * Creates a new synchronous/blocking REST client.
+   */
+  public BinanceApiRestClient newRestClient(List<BinanceApiHttpInterceptor> interceptorsHttp) {
+    return new BinanceApiRestClientImpl(apiKey, secret, interceptorsHttp);
+  }  
 
   /**
    * Creates a new asynchronous/non-blocking REST client.
