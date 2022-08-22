@@ -124,11 +124,9 @@ public class BinanceApiServiceGenerator {
                 BinanceApiError apiError = getBinanceApiError(response);
                 throw new BinanceApiException(apiError);
             }
-        } catch (IOException e) {
-        	System.out.println("Error al invocar la API. Motivo: " + e.getMessage());
-        	e.printStackTrace();
+        } catch (Exception e) {
             throw new BinanceApiException(e);
-        }
+        }        
     }
         
 
