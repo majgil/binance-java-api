@@ -1,3 +1,12 @@
+# Discontinue this Library
+
+The support to this library is scheduled to be discontinued, and it will be offline within the next six months.
+
+Please consider this offically supported Java library available at https://github.com/binance/binance-connector-java
+
+
+
+
 # Java Binance API
 
 binance-java-api is a lightweight Java library for interacting with the [Binance API](https://developers.binance.com/docs/api/scopes), providing complete API coverage, and supporting synchronous and asynchronous requests, as well as event streaming using WebSockets.
