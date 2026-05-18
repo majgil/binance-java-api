@@ -28,7 +28,7 @@ public interface BinanceApiService {
     @GET("/api/v1/ping")
     Call<Void> ping();
 
-    @GET("/api/v1/time")
+    @GET("/api/v3/time")
     Call<ServerTime> getServerTime();
 
     @GET("/api/v3/exchangeInfo")

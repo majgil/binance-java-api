@@ -43,7 +43,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 
 	@Override
 	public Long getServerTime() {
-		return executeSync(binanceApiService.getServerTime()).getServerTime();
+		return executeSync(binanceApiService.getServerTime(), true, true).getServerTime();
 	}
 
 	@Override
